@@ -43,7 +43,7 @@ jobs:
           EOS
       - name: Check .clasprc.json has successfully deployed
         run: |
-          test -f ~/.clasprc.json; echo $?
+          cat ~/.clasprc
       - name: Deploy
         working-directory: clasp
         run: |
