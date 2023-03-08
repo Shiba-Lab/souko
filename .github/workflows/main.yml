@@ -41,9 +41,6 @@ jobs:
             "isLocalCreds": false
           }
           EOS
-      - name: Check .clasprc.json has successfully deployed
-        run: |
-          cat ~/.clasprc.json
       - name: Deploy
         working-directory: clasp
         run: |
