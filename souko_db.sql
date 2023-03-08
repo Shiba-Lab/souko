@@ -1,3 +1,15 @@
+/*
+    File Name   : souko_db.sql
+    Created     : on 20:30 at Mar 08, 2023
+    Description : 倉庫整理に使ってるデータベース
+
+    Copyright 2023 Shogo Kitada All Rights Reserved.
+        contact@shogo0x2e.com (Twitter, GitHub: @shogo0x2e)
+
+    I would be happy to notify me if you use part of my code.
+*/
+
+
 CREATE TABLE categories(
     pk_category_id INT          NOT NULL,
     name           VARCHAR(192) NOT NULL,
