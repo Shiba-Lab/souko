@@ -41,6 +41,9 @@ jobs:
             "isLocalCreds": false
           }
           EOS
+      - name: Check .clasprc.json has successfully deployed
+        run: |
+          test -f ~/.clasprc.json; echo $?
       - name: Deploy
         working-directory: clasp
         run: |
