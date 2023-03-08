@@ -9,45 +9,86 @@
     I would be happy to notify me if you use part of my code.
 */
 
-
 CREATE TABLE categories(
-    pk_category_id INT          NOT NULL,
-    name           VARCHAR(192) NOT NULL,
-    PRIMARY KEY(pk_category_id)
+    id      INT          AUTO_INCREMENT,
+    name    VARCHAR(192) NOT NULL, -- 3 バイト * 64 文字 ==  192
+    
+    PRIMARY KEY(id) -- NOT NULL 制約は 主キー制約で付与される
 );
 
 CREATE TABLE cases(
-    pk_case_id INT NOT NULL,
-    remark     TEXT,
-    PRIMARY KEY(pk_case_id)
+    id      INT     AUTO_INCREMENT,
+    remark  TEXT,
+    
+    PRIMARY KEY(id)
 );
 
+-- 画像たちはルーティングで管理する
 CREATE TABLE products(
-    pk_product_id   CHAR(10)     NOT NULL,
-    created_at      DATE         NOT NULL,
-    updated_at      DATE         NOT NULL,
-    fk_category_id  INT          NOT NULL,
-    quantity        INT          NOT NULL,
-    product_name    VARCHAR(768) NOT NULL,
+    id              INT                 AUTO_INCREMENT,
+    web_id          CHAR(10)            NOT NULL, -- web アクセス用のs00001 + 余剰 4 文字
+    created_at      DATETIME            NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at      DATETIME            NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    updated_by      CHAR(10)            NOT NULL, -- 学番
+    quantity        SMALLINT UNSIGNED   NOT NULL,
+    product_name    VARCHAR(768)        NOT NULL,
+    fk_category_id  INT                 NOT NULL,
     fk_case_id      INT,
     spec            TEXT,
-    PRIMARY KEY(pk_product_id),
-    FOREIGN KEY(fk_category_id) REFERENCES categories(pk_category_id),
-    FOREIGN KEY(fk_case_id)     REFERENCES cases(pk_case_id)
+    
+    PRIMARY KEY(id),
+    
+    FOREIGN KEY(fk_category_id) REFERENCES categories(id),
+    FOREIGN KEY(fk_case_id)     REFERENCES cases(id),
+    
+    UNIQUE(web_id)
 );
 
 CREATE TABLE lendings(
-    pk_rent_id        INT      NOT NULL,
-    fk_product_id     CHAR(10) NOT NULL,
+    id                INT      NOT NULL,
+    fk_product_id     INT      NOT NULL,
     to_be_returned_at DATE     NOT NULL,
     returned_at       DATE,
     applicant_id      CHAR(10) NOT NULL,
-    PRIMARY KEY(pk_rent_id),
-    FOREIGN KEY(fk_product_id) REFERENCES products(pk_product_id)
+    
+    PRIMARY KEY(id),
+    FOREIGN KEY(fk_product_id) REFERENCES products(id)
 );
 
-create table Test(id integer, title varchar(100));
-insert into Test(id, title) values(1, "Hello");
-select * from Test;
--- Your code here!
+---------------------
+-- 以下はテスト用のコード
+---------------------
 
+/*
+INSERT INTO categories(name) VALUES(
+    "プロジェクター"
+);
+
+
+INSERT INTO cases(remark) VALUES(
+    "基本プロジェクターたちを入れてる箱"
+);
+
+INSERT INTO products(
+    web_id, updated_by, quantity, product_name, 
+    fk_category_id, fk_case_id, spec
+)
+VALUES (
+    "s00001",
+    "bp99999",
+    1,
+    "BENQ プロジェクター",
+    1, -- 2 とかにすると外部キー制約で弾かれるよ！
+    1,
+    "単焦点じゃない普通のやつ"
+);
+
+SELECT
+    * 
+FROM 
+    products, cases, categories
+WHERE
+    products.fk_case_id = cases.id AND
+    products.fk_category_id = categories.id;
+
+//*/
