@@ -1,0 +1,24 @@
+/*
+    File Name   : index.css
+    Created     : on 00:58 at Mar 25, 2023
+    Description : 
+
+    Copyright 2023 Shogo Kitada All Rights Reserved.
+        contact@shogo0x2e.com (Twitter, GitHub: @shogo0x2e)
+
+    I would be happy to notify me if you use part of my code.
+*/
+
+:root {
+    
+}
+
+body {
+    /* Bootstrap 公式のデフォルト値, navbar 分 */
+    height: 100vh;
+    padding-top: 4.5rem;
+}
+
+nav {
+    min-width: 300px;
+}

@@ -23,6 +23,9 @@ CREATE TABLE cases(
     PRIMARY KEY(id)
 );
 
+-- 1:06 Mar 9 追加: ケースにアクセスしたとき用
+ALTER TABLE cases ADD web_id CHAR(10) NOT NULL;
+
 -- 画像たちはルーティングで管理する
 CREATE TABLE products(
     id              INT                 AUTO_INCREMENT,
@@ -44,6 +47,9 @@ CREATE TABLE products(
     UNIQUE(web_id)
 );
 
+-- 12:49 Mar 9 追加; 消耗品であるか、のカラムが抜けてた
+ALTER TABLE products ADD is_consumable BOOLEAN NOT NULL;
+
 CREATE TABLE lendings(
     id                INT      NOT NULL,
     fk_product_id     INT      NOT NULL,
@@ -52,6 +58,13 @@ CREATE TABLE lendings(
     applicant_id      CHAR(10) NOT NULL,
     
     PRIMARY KEY(id),
+    FOREIGN KEY(fk_product_id) REFERENCES products(id)
+);
+
+CREATE TABLE images(
+    fk_product_id   INT         NOT NULL,
+    image_url       CHAR(100)   NOT NULL,   -- 70 文字前後 + マージン
+
     FOREIGN KEY(fk_product_id) REFERENCES products(id)
 );
 
